@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="product.css">
+</head>
+<body>
+ <div class="container">    
+            <div class="title">
+                <h1>List toys</h1>
+            </div>
+            
+            <div class="list">
+                <form action="/doSearch" method="POST">
+                Name <input type="text" name="txtName" id="">
+                <input type="submit" value="Search">
+                </form>
+                <br>
+                <div class="create">
+                    <a href="/insert" class="btn-create">Create</a>
+                </div>
+                <form action="">
+                    <table  border="1" >
+                        <tr class="thead">
+                            <th class="col-name">Name</th>
+                            <th class="col-id">Image</th>
+                            <th class="col-id"> Price</th>
+                            <th class="col-detail">Detail</th>
+                            <th class="col-act">Action</th> 
+                        </tr> 
+                        {{#each model}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td style="padding: 10px;"><img width="200px", height="auto" src="{{image}}" alt=""></td>
+                            <td>{{price}} $</td>
+                            <td>{{detal}}</td>
+                            <td>
+                                <span ><a href="/update?id={{_id}}">Update</a>
+                                <a href="/delete?id={{_id}}">Delete</a></span>
+                            </td>
+                            
+                        </tr>
+                        {{/each}}
+                    </table>
+                </form>
+            </div>
+        </div>    
+</body>
+</html>
