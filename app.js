@@ -89,18 +89,32 @@ app.get('/delete', async (req, res) => {
  })
  app.post('/doUpdate', async(req,res)=>{
      let id = req.body.id;
-     let nameValue = req.body.txtName;
-     let priceValue = req.body.txtPrice;
-     let detailValue = req.body.txtDetail;
-     let authorValue = req.body.txtAuthor;
-     let newValues ={$set : {name: nameValue,author:authorValue,price:priceValue,detail:detailValue}};
-     var ObjectID = require('mongodb').ObjectID;
-     let condition = {"_id" : ObjectID(id)};
-    
-     let client= await MongoClient.connect(url);
-     let dbo = client.db("ASM");
-     await dbo.collection("products").updateOne(condition,newValues);
-     res.redirect('/')
+     let inpName = req.body.txtName;
+     let inpImage=req.body.txtImage;
+     let inpPrice = req.body.txtPrice;
+     let inpDetail = req.body.txtDetail;
+     let newValues ={$set : {
+         name: inpName,
+         image: inpImage,
+         price:inpPrice,
+         detal:inpDetail}};
+         if(inpName.trim().length ==0 || inpPrice.trim().length == 0){
+            let modelError ={nameError:"You forget something"};
+            res.render('insert',{model:modelError});
+        }
+        else{
+             if(isNaN(inpPrice))
+             {
+                 let modelError1 ={priceError:" Only enter numbers"};
+                 res.render('insert',{model:modelError1})
+             }else{
+                var ObjectID = require('mongodb').ObjectID;
+                let condition = {"_id" : ObjectID(id)};
+                let client= await MongoClient.connect(url);
+                let dbo = client.db("ASM");
+                await dbo.collection("products").updateOne(condition,newValues);
+        res.redirect('/');
+    }}
  });
 var server = app.listen(process.env.PORT||9000,function(){
     console.log("Server is running.....");
