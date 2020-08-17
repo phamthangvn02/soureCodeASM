@@ -53,16 +53,21 @@ app.post('/doInsert', async (req, res) => {
         price: inpPrice,
         detal: inpDetal
     };
-    if(inpName.trim().length ==0){
+    if(inpName.trim().length ==0 || inpPrice.trim().length == 0){
         let modelError ={nameError:"You forget something"};
         res.render('insert',{model:modelError});
     }
     else{
+         if(isNaN(inpPrice))
+         {
+             let modelError1 ={priceError:" Only enter numbers"};
+             res.render('insert',{model:modelError1})
+         }else{
     let client = await MongoClient.connect(url);
     let dbo = client.db("ASM");
     await dbo.collection("products").insertOne(newToy);
     res.redirect('/');
-}
+}}
 })
 app.get('/delete', async (req, res) => {
     let inputID = req.query.id;
