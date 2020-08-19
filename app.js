@@ -100,13 +100,13 @@ app.get('/delete', async (req, res) => {
          detal:inpDetail}};
          if(inpName.trim().length ==0 || inpPrice.trim().length == 0){
             let modelError ={nameError:"You forget something"};
-            res.render('insert',{model:modelError});
+            res.render('update',{model:modelError});
         }
         else{
              if(isNaN(inpPrice))
              {
                  let modelError1 ={priceError:" Only enter numbers"};
-                 res.render('insert',{model:modelError1})
+                 res.render('update',{model:modelError1})
              }else{
                 var ObjectID = require('mongodb').ObjectID;
                 let condition = {"_id" : ObjectID(id)};
